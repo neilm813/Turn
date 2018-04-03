@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="CRMApp">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CRM App</title>
+
+    <!-- jQuery -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
+    <!-- Bootstrap -->
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
+    <!-- Angular CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.6/angular.min.js">
+    </script>
+
+<!--Ui-Router-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.2/angular-ui-router.js">
+    </script>
+
+<!--Style Sheets-->
+<link href='http://fonts.googleapis.com/css?family=Roboto:100,400,300,500,700' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="./css/home.css">
+<link rel="stylesheet" href="./css/index.css">
+<link rel="stylesheet" href="./css/normalize&global.css">
+<link rel="stylesheet" href="./css/customer.css">
+<link rel="stylesheet" href="./css/login.css">
+<link rel="stylesheet" href="./css/animate.css">
+
+</head>
+
+<body ng-cloak>
+    <div ng-controller="userController">
+        <div ng-init="index()">
+        </div>
+    </div>
+    <div ng-controller="customerController">
+        <div ng-init="initUserCustomers()">
+
+<script> 
+    $(document).ready(function () {
+
+        $(".account").click(function () {
+            var X = $(this).attr('id');
+            if (X == 1) {
+                $(".submenu").hide();
+                $(this).attr('id', '0');
+            }
+            else {
+                $(".submenu").show();
+                $(this).attr('id', '1');
+            }
+        });
+
+        $(".submenu").mouseup(function () {
+            return false
+        });
+
+        $(".account").mouseup(function () {
+            return false
+        });
+
+        $(document).mouseup(function () {
+            $(".submenu").hide();
+            $(".account").attr('id', '');
+        });
+
+    });
+</script>
+
+<!-- START Edit User Modal-->
+<div class="text-center modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="editUserModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="editUserTitle">Edit Profile</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>First Name
+                                    <input ng-model="editUserFName" class="form-control" type="text" placeholder="{{loggedInUser.FirstName}}">
+                                    </label>
+                </div>
+                <div class="form-group">
+                    <label>Last Name
+                                    <input ng-model="editUserLName" class="form-control" type="text">
+                                    </label>
+                </div>
+                <div class="form-group">
+                    <label>Email
+                                    <input ng-model="editUserEmail" class="form-control" type="text">
+                                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                <button ng-click="editUser()" class="btn btn-success" data-dismiss="modal">Edit Profile</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End #createNewInstructorModal -->
+
+<div class="text-center modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="deleteUserModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="userDeleteTitle">Edit Profile</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <spann class="color: red">**WARNING** You will not be able to delete your account until all YOUR clients have been reassigned.
+                    </spann>
+                    <div ng-show="cantDelete">
+                        <h4>Customers to Reassign</h4>
+                        <ul>
+                            <li ng-repeat="customer in loggedInUserCustomers">
+                                {{customer.FirstName}} {{customer.LastName}}
+                                <button ng-click="reassignCustomer(customer)">Reassign</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                    <button ng-click="deleteAccount()" class="btn btn-danger" ng-disabled="cantDelete">Delete Profile</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<!-- END ng-init -->
+</div>
+<!-- END Customer Controller -->
+<div ui-view class="uiViewClass">
+</div>
+
+<script src="./app.js"></script>
+<script src="./controllers/userController.js"></script>
+<script src="./controllers/customerController.js"></script>
+<script src="./controllers/noteController.js"></script>
+
+<!-- Services -->
+<script src="./services/customerService.js"></script>
+<script src="./services/userService.js"></script>
+<script src="./services/noteService.js"></script>
+</body>
+
+</html>

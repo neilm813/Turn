@@ -1,0 +1,87 @@
+
+
+/* NAVBAR
+****************************************/
+#customerNav {
+  box-shadow: 0 3px 20px rgba(0, 0, 0, 0.3);
+  background-color: whitesmoke;
+  height: 60px;
+}
+
+.divBelowNav {
+  padding-top: 68px;
+  margin-bottom: 5px;
+}
+
+.customerNameNav {
+  transform: translate(-50%, -50%);
+  position: absolute;
+  left: 50%;
+  top: 33%;
+}
+
+/* LEFT COL
+****************************************/
+.hideBtn {
+  margin-top: -5px;
+}
+
+.offsetHideBtn {
+  margin-left: 54.25px;
+}
+
+.byEmailBtn {
+  margin-bottom: 10px;
+}
+
+/* RIGHT COL
+****************************************/
+.moodBtn {
+  border-radius: 100%;
+  font-weight: bold;
+  height: 25px;
+  width: 25px;
+}
+
+.lastEditText {
+  font-size: .9em;
+  font-weight: 100;
+  font-style: italic;
+  margin-bottom: 2px;
+  margin-top: -15px;
+  margin-left: 2px;
+}
+
+/* MISC
+****************************************/
+
+.vhCol {
+  height: 87vh;
+  overflow-y: scroll;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+.marginLeft15px {
+  margin-left: 15px;
+}
+
+.greyBtmBorder {
+  border-bottom: 2px inset #94b4d1;
+}
+
+
+.greyTopBorder {
+  border-top: 2px inset #94b4d1;
+}
+
+.clearRight {
+  clear: both;
+}
+
+.paddLeftEditAndDelete {
+  padding-left: 122.18px;
+}
+

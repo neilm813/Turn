@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+
+<div class="container-fluid animated fadeIn">
+
+	<nav class="navbar navbar-fixed-top" id="customerNav">
+		<div class="container-fluid">
+			<a class="navbar-brand" ui-sref="home">
+				<img class="animated rotateInDownLeft" alt="Brand" src="./css/img/turn_blk.png">
+			</a>
+			<h2 class="customerNameNav">{{ selectedCustomer.FirstName }} {{ selectedCustomer.LastName }} <span ng-if="selectedCustomer.Nickname">({{ selectedCustomer.Nickname }})</span>
+			</h2>
+			<!-- START Logged In User Dropdown -->
+			<div class="dropdown pull-right" style="margin-right: 0px">
+<a class="account">
+	<img src="http://www.freeiconspng.com/uploads/am-a-19-year-old-multimedia-artist-student-from-manila--21.png" class="profile-circle"
+	/>
+</a>
+<div class="submenu" style="display: none; ">
+<ul class="root">
+	<li>
+		<a ng-click="goHome()">Home</a>
+	</li>
+	<li>
+		<a ng-click="editUserModal()">Edit Profile</a>
+	</li>
+	<li>
+		<a ng-click="deleteUserModal()">Delete Profile</a>
+	</li>
+	<li>
+		<a ng-click="logout()">Log Out</a>
+	</li>
+</ul>
+</div>
+</div>
+<!-- END Logged In User Drop Down -->
+</div>
+</nav>
+<!-- START Row 1 -->
+<div class="row divBelowNav text-center">
+
+</div>
+<!-- END Row 1 -->
+<!-- START Row 2 -->
+<div class="row row2">
+
+	<!-- START Left Col -->
+	<div class="col-md-6 vhCol">
+		<h3 class="text-center">
+			Personal Information
+		</h3>
+		<div class="text-center">
+			<div class="btn-group">
+				<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+					Assignee: {{ assignedUser.FirstName }} {{ assignedUser.LastName }}
+					<span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu home-scrollable-menu" role="menu">
+					<li ng-repeat="user in users" ng-if="user.Id != assignedUser.Id">
+						<a ng-click="transferCustomer(user)">
+							{{user.FirstName}} {{user.LastName}}
+						</a>
+					</li>
+				</ul>
+			</div>
+			<button ng-click="editCustomerModal()" class="btn btn-warning">
+				Edit
+			</button>
+			<button ng-click="deleteCustomer()" class="btn btn-danger">
+				Delete
+			</button>
+		</div>
+		<!-- START Personal Info-->
+		<div>
+			<div ng-if="selectedCustomer.FirstName">
+				<h5 class="bold underline">First Name</h5>
+				<h5>
+					{{ selectedCustomer.FirstName }}
+				</h5>
+			</div>
+			<div ng-if="selectedCustomer.LastName">
+				<h5 class="bold underline">Last Name</h5>
+				<h5>{{ selectedCustomer.LastName }}</h5>
+			</div>
+			<div ng-if="selectedCustomer.Nickname">
+				<h5 class="bold underline">Nickname</h5>
+				<h5>{{ selectedCustomer.Nickname }}</h5>
+			</div>
+			<div ng-if="selectedCustomer.LeadState">
+				<h5 class="bold underline">Lead State</h5>
+				<h5>{{ selectedCustomer.LeadState }}</h5>
+			</div>
+			<div ng-if="selectedCustomer.Email">
+				<h5 class="bold underline">Email</h5>
+				<h5>
+					<a href="mailto:{{ selectedCustomer.Email }}">{{ selectedCustomer.Email }}</a>
+				</h5>
+			</div>
+			<div ng-if="selectedCustomer.Phone">
+				<h5 class="bold underline">Phone</h5>
+				<h5>
+					<a href="tel:{{ selectedCustomer.Phone }}">{{ selectedCustomer.Phone }}</a>
+				</h5>
+			</div>
+			<div ng-if="selectedCustomer.StreetAddress 
+				|| selectedCustomer.City 
+				|| selectedCustomer.State 
+				|| selectedCustomer.Zip">
+				<h5 class="bold underline">Address</h5>
+				<h5 ng-if="selectedCustomer.StreetAddress">
+					{{ selectedCustomer.StreetAddress }}
+				</h5>
+				<h5 ng-if="selectedCustomer.City
+					|| selectedCustomer.State
+					|| selectedCustomer.Zip">
+					{{ selectedCustomer.City }}<span ng-if="selectedCustomer.City">,</span> {{ selectedCustomer.State }} {{ selectedCustomer.Zip
+					}}
+				</h5>
+			</div>
+			<div ng-if="selectedCustomer.DOB">
+				<h5 class="bold underline">Date of Birth</h5>
+				<h5>{{ selectedCustomer.DOB }}</h5>
+			</div>
+			<div ng-if="selectedCustomer.Gender">
+				<h5 class="bold underline">Gender</h5>
+				<h5>{{ selectedCustomer.Gender }}</h5>
+			</div>
+			<div ng-if="selectedCustomer.DateAdded">
+				<h5 class="bold underline">Customer Since</h5>
+				<h5>{{ selectedCustomer.DateAdded | date:'medium'}}</h5>
+			</div>
+			<div ng-if="selectedCustomer.Employer">
+				<h5 class="bold underline">Employer</h5>
+				<h5>{{ selectedCustomer.Employer }}</h5>
+			</div>
+			<div ng-if="selectedCustomer.JobTitle">
+				<h5 class="bold underline">Job Title</h5>
+				<h5>{{ selectedCustomer.JobTitle }}</h5>
+			</div>
+			<div ng-if="selectedCustomer.Tenure">
+				<h5 class="bold underline">Tenure (years)</h5>
+				<h5>{{ selectedCustomer.Tenure }}</h5>
+			</div>
+		</div>
+		<!-- End Personal Info -->
+
+		<!-- Full Contact Results -->
+		<div class="greyTopBorder">
+			<h3 class="text-center">Full Contact Results</h3>
+			<button ng-click="getFCByEmail()" class="btn btn-info btn-block byEmailBtn">
+					Retrieve By Email
+				</button>
+			<button ng-if="fcByEmailShown" ng-click="hideFCEmailResults()" class="btn btn-default pull-right hideBtn">
+					Hide
+				</button>
+			<div ng-if="fcByEmailShown" class="fcEmailResults">
+				<h4 ng-if="fcEmailStatus == 'searching...'" class="text-center offsetHideBtn">{{ fcEmailStatus }}</h4>
+				<!-- Contact Info -->
+				<div ng-if="fcEmailResults.contactInfo">
+					<h4>
+						<span class="underline">Name</span>
+					</h4>
+					<p ng-if="fcEmailResults.contactInfo.givenName">
+						{{ fcEmailResults.contactInfo.givenName }}
+					</p>
+					<p ng-if="fcEmailResults.contactInfo.familyName">
+						{{ fcEmailResults.contactInfo.familyName }}
+					</p>
+					<!-- Websites -->
+					<div ng-if="fcEmailResults.contactInfo.websites">
+						<h4>
+							<span class="underline">Websites</span>
+						</h4>
+						<ul>
+							<li ng-repeat="website in fcEmailResults.contactInfo.websites">
+								<a href="{{ website.url }}">{{ website.url }}</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<!-- Demographics -->
+				<div ng-if="fcEmailResults.demographics">
+					<h4><span class="underline">Demographics</span></h4>
+					<p>{{ fcEmailResults.demographics.locationGeneral }}</p>
+				</div>
+				<!-- Digital Footprint -->
+				<div ng-if="fcEmailResults.digitalFootprint">
+					<h4>
+						<span class="underline">Digital Footprint</span>
+					</h4>
+					<p ng-repeat="score in fcEmailResults.digitalFootprint.scores">
+						{{ score.type }} {{score.provider}} score: {{ score.value }}
+					</p>
+					<p>
+						Score(s) based on: <span ng-repeat="topic in fcEmailResults.digitalFootprint.topics">
+								{{ topic.value }} 
+							</span>
+					</p>
+				</div>
+				<!-- Digital Footprint -->
+				<div ng-if="fcEmailResults.socialProfiles">
+					<!-- Social Profiles -->
+					<h4>
+						<span class="underline">Social Profiles</span>
+					</h4>
+					<div ng-repeat="profile in fcEmailResults.socialProfiles">
+						<ul>
+							<li>
+								<a class="underline" href="{{ profile.url }}">
+										{{ profile.typeName }}
+									</a>
+							</li>
+							<li>
+								<ul class="marginLeft15px">
+									<li ng-if="profile.followers">
+										Followers: {{ profile.followers }}
+									</li>
+									<li ng-if="profile.username">
+										Username: {{ profile.username }}
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+					<!-- Repeat Social Profiles -->
+				</div>
+				<!-- Social Profiles -->
+				<!-- Organizations -->
+				<div ng-if="fcEmailResults.organizations">
+					<h4>
+						<span class="underline">Organizations</span>
+					</h4>
+					<div ng-repeat="organization in fcEmailResults.organizations">
+						<ul>
+							<li class="underline">
+								{{ organization.name }}
+							</li>
+							<li>
+								<ul class="marginLeft15px">
+									<li ng-if="organization.title">
+										Title: {{ organization.title }}
+									</li>
+									<li ng-if="organization.current">
+										Current: {{ organization.current }}
+									</li>
+									<li ng-if="organization.startDate">
+										Start Date: {{ organization.startDate }}
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+					<!-- Organizations Repeat -->
+				</div>
+				<!-- Organizations -->
+				<!-- Photos -->
+				<div ng-if="fcEmailResults.photos">
+					<h4>
+						<span class="underline">Photos</span>
+					</h4>
+					<ul>
+						<li ng-repeat="photo in fcEmailResults.photos">
+							<img src="{{photo.url}}" alt="Profile Picture">
+						</li>
+					</ul>
+				</div>
+				<!-- END Photos -->
+			</div>
+			<!-- END fc email results ng-show -->
+		</div>
+		<!-- END Full Contact Results -->
+	</div>
+	<!-- END Left Col -->
+
+	<!-- START Right Col -->
+	<div class="col-md-6 vhCol">
+		<h3 class="text-center">
+			Notes
+		</h3>
+		<!-- START New Note -->
+		<div>
+			<div class="form-group">
+				<input ng-model="newNoteSubject" type="text" placeholder="Subject" class="form-control">
+			</div>
+			<div class="form-group">
+				<textarea ng-model="newNoteBody" placeholder="Body" cols="30" rows="6" class="form-control"></textarea>
+			</div>
+			<div class="pull-right form-group">
+				<span>Mood:</span>
+				<div ng-class="{botBordBlue: isHappy}" class="inlineBlock moodDivs">
+					<button ng-click="setNoteMood('Happy', 'new')" class="btn btn-success moodBtn">
+						</button>
+				</div>
+				<div ng-class="{botBordBlue: isNeutral}" class="inlineBlock moodDivs">
+					<button ng-click="setNoteMood('Neutral', 'new')" class="btn btn-warning moodBtn">
+						</button>
+				</div>
+				<div ng-class="{botBordBlue: isMad}" class="inlineBlock moodDivs" id="madDiv">
+					<button ng-click="setNoteMood('Mad', 'new')" class="btn btn-danger moodBtn">
+						</button>
+				</div>
+				<button ng-click="saveNewNote()" class="btn btn-default" id="saveNewNote">
+						Save Note
+					</button>
+			</div>
+		</div>
+		<!-- END New Note -->
+		<!-- START Current Notes -->
+		<div ng-repeat="note in customerNotes" class="greyTopBorder clearfix paddingTop10px animated fadeInDown">
+			<div class="form-group">
+				<label>
+						<span ng-if="note.Mood" class="smallerMoodBtn">
+							<button 
+							ng-if="note.Mood == 'Happy'"
+							class="btn btn-success moodBtn cursorDefault">
+							</button>
+							<button 
+							ng-if="note.Mood == 'Neutral'"
+							class="btn btn-warning moodBtn cursorDefault">
+							</button>
+							<button 
+							ng-if="note.Mood == 'Mad'"
+							class="btn btn-danger moodBtn cursorDefault">
+							</button>
+						</span>
+						{{ note.DateAdded | date:'medium' }} - {{ note.Author }}
+					</label>
+				<input type="text" class="form-control cursorText" readonly value="{{ note.Subject }}">
+			</div>
+			<div class="form-group">
+				<textarea cols="30" rows="6" readonly class="form-control cursorText">{{ note.Body }}</textarea>
+			</div>
+			<p ng-if="note.LastEditAuthor" class="lastEditText">
+				Last edited by: {{ note.LastEditAuthor }} on {{ note.LastEditDate | date: 'medium'}}
+			</p>
+			<button ng-click="viewNoteEditHistory(note)" ng-if="note.LastEditAuthor" class="btn btn-default">
+					Edit History
+				</button>
+			<div class="form-group pull-right">
+				<button ng-click="editNote(note)" class="btn btn-warning marginRight3px">
+							Edit
+						</button>
+				<button ng-click="deleteNote(note)" class="btn btn-danger">
+							Delete
+						</button>
+			</div>
+		</div>
+		<!-- END Current Notes ng-repeat -->
+	</div>
+	<!-- END Right Col -->
+
+</div>
+<!-- END Row 2 -->
+</div>
+<!-- END Main Container -->
+
+<!-- START #editCustomerModal -->
+<div class="modal fade" id="editCustomerModal" tabindex="-1" role="dialog" aria-labelledby="editCustomerTitle">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title text-center" id="editCustomerTitle">Edit Customer</h4>
+			</div>
+			<div class="modal-body text-center">
+
+				<div class="form-group">
+					<label>First Name
+						<input ng-model="editedCustomer.FirstName" class="form-control" type="text">
+					</label>
+					<label>Last Name
+						<input ng-model="editedCustomer.LastName" class="form-control" type="text">
+					</label>
+				</div>
+				<div class="form-group">
+					<label>Nickname
+						<input ng-model="editedCustomer.Nickname" class="form-control" type="text">
+					</label>
+					<label>Lead State
+						<input ng-model="editedCustomer.LeadState" class="form-control" type="text">
+					</label>
+				</div>
+
+				<div class="form-group">
+					<label>Email
+						<input ng-model="editedCustomer.Email" class="form-control" type="text">
+					</label>
+					<label>Phone
+						<input ng-model="editedCustomer.Phone" class="form-control" type="text">
+					</label>
+				</div>
+				<div class="form-group">
+					<label>Street Address
+						<input ng-model="editedCustomer.StreetAddress" class="form-control" type="text">
+					</label>
+					<label>City
+						<input ng-model="editedCustomer.City" class="form-control" type="text">
+					</label>
+				</div>
+				<div class="form-group">
+					<label>State
+						<input ng-model="editedCustomer.State" class="form-control" type="text">
+					</label>
+					<label>Zip
+						<input ng-model="editedCustomer.Zip" class="form-control" type="number">
+					</label>
+				</div>
+				<div class="form-group">
+					<label>DOB
+						<input ng-model="editedCustomer.DOB" class="form-control" type="text">
+					</label>
+					<label>Gender
+						<input ng-model="editedCustomer.Gender" class="form-control" type="text">
+					</label>
+				</div>
+				<div class="form-group">
+					<label>Employer
+						<input ng-model="editedCustomer.Employer" class="form-control" type="text">
+					</label>
+					<label>Job Title
+						<input ng-model="editedCustomer.JobTitle" class="form-control" type="text">
+					</label>
+				</div>
+				<div class="form-group text-center">
+					<label>Tenure
+						<input ng-model="editedCustomer.Tenure" class="form-control" type="number">
+					</label>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn" data-dismiss="modal">Close</button>
+				<button ng-click="saveEditedCustomer()" type="button" class="btn btnPrimary" data-dismiss="modal">Save changes</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- END #editCustomerModal -->
+
+<!-- START #editNoteModal -->
+<div class="modal fade" id="editNoteModal" tabindex="-1" role="dialog" aria-labelledby="editNoteModalTitle">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title text-center" id="editNoteModalTitle">Editing Note</h4>
+			</div>
+			<div class="modal-body">
+				<div class="form-group">
+					<label>
+						Subject
+					</label>
+					<input ng-model="editedNote.Subject" class="form-control" type="text" value="{{ editedNote.Subject }}">
+				</div>
+				<div class="form-group">
+					<label>Body
+					</label>
+					<textarea ng-model="editedNote.Body" placeholder="Body" cols="30" rows="6" class="form-control" value="{{ editedNote.Body }}"></textarea>
+				</div>
+				<span>
+							<button 
+							ng-if="editedNoteCopy.Mood == 'Happy'"
+							class="btn btn-success moodBtn cursorDefault">
+							</button>
+							<button 
+							ng-if="editedNoteCopy.Mood == 'Neutral'"
+							class="btn btn-warning moodBtn cursorDefault">
+							</button>
+							<button 
+							ng-if="editedNoteCopy.Mood == 'Mad'"
+							class="btn btn-danger moodBtn cursorDefault">
+							</button>
+							Current Mood
+				</span>
+				<div class="pull-right form-group">
+					<span>Change Mood:</span>
+					<div ng-class="{botBordBlue: isHappy}" class="inlineBlock moodDivs">
+						<button ng-click="setNoteMood('Happy', 'edit')" class="btn btn-success moodBtn">
+						</button>
+					</div>
+					<div ng-class="{botBordBlue: isNeutral}" class="inlineBlock moodDivs">
+						<button ng-click="setNoteMood('Neutral', 'edit')" class="btn btn-warning moodBtn">
+						</button>
+					</div>
+					<div ng-class="{botBordBlue: isMad}" class="inlineBlock moodDivs" id="madDiv">
+						<button ng-click="setNoteMood('Mad', 'edit')" class="btn btn-danger moodBtn">
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn" data-dismiss="modal">Close</button>
+				<button ng-click="saveEditedNote()" type="button" class="btn btnPrimary" data-dismiss="modal">Save changes</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- END #editNoteModal -->
+
+<!-- START #editedNoteHistoryModal -->
+<div class="modal fade" id="editedNoteHistoryModal" tabindex="-1" role="dialog" aria-labelledby="editedNoteHistoryModalTitle">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title text-center" id="editedNoteHistoryModalTitle">Note Edit History</h4>
+			</div>
+			<div class="modal-body">
+				<div ng-repeat="note in editedNotes" class="greyBtmBorder marginBot10px">
+					<div class="form-group">
+						<label>
+						<span ng-if="note.Mood" class="smallerMoodBtn">
+							<button 
+							ng-if="note.Mood == 'Happy'"
+							class="btn btn-success moodBtn cursorDefault">
+							</button>
+							<button 
+							ng-if="note.Mood == 'Neutral'"
+							class="btn btn-warning moodBtn cursorDefault">
+							</button>
+							<button 
+							ng-if="note.Mood == 'Mad'"
+							class="btn btn-danger moodBtn cursorDefault">
+								</button>
+						</span>
+						{{ note.Author }} edited on {{ note.DateEdited | date:'medium' }}
+					</label>
+						<input ng-model="note.Subject" class="form-control cursorText" type="text" readonly>
+					</div>
+					<div class="form-group">
+						<textarea ng-bind="note.Body" readonly cols="30" rows="6" class="form-control cursorText"></textarea>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- END #editedNoteHistoryModal -->
+<script> 
+	$(document).ready(function () {
+
+		$(".account").click(function () {
+			var X = $(this).attr('id');
+			if (X == 1) {
+				$(".submenu").hide();
+				$(this).attr('id', '0');
+			}
+			else {
+				$(".submenu").show();
+				$(this).attr('id', '1');
+			}
+		});
+
+		$(".submenu").mouseup(function () {
+			return false
+		});
+
+		$(".account").mouseup(function () {
+			return false
+		});
+
+		$(document).mouseup(function () {
+			$(".submenu").hide();
+			$(".account").attr('id', '');
+		});
+
+	});
+</script>

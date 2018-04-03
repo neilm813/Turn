@@ -1,0 +1,88 @@
+* {
+padding: 0;
+margin: 0;
+box-sizing: border-box;
+}
+
+nav div a img {
+  width: 125px;
+}
+
+h1, h2, h3, h4, h5 {
+  margin-top: 10px;
+}
+
+li {
+  list-style-type: none;
+}
+
+.clearfix {
+    content:"";
+    display:block;
+    clear:both;
+}
+
+.paddingTop10px {
+  padding-top: 10px;
+}
+
+.marginRight3px {
+  margin-right: 3px;
+}
+
+.marginTop10px {
+  margin-top: 10px;
+}
+
+.marginBot10px {
+  margin-bottom: 10px;
+}
+
+.paddingBot10px {
+  padding-bottom: 10px;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.cursorDefault {
+  cursor: default !important;
+}
+
+.cursorText {
+  cursor: text !important;
+}
+
+.cursorPointer {
+  cursor: pointer;
+}
+
+.botBordBlue {
+  border-bottom: 3px solid #357ebd;
+}
+
+.inlineBlock {
+  display: inline-block;
+}
+
+.wordWrap {
+  white-space: pre-wrap;
+  word-wrap: normal;
+}
+
+.linkWrap {
+    white-space: pre-wrap; /* css-3 */    
+    white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+    white-space: -pre-wrap; /* Opera 4-6 */    
+    white-space: -o-pre-wrap; /* Opera 7 */    
+    word-wrap: break-word; /* Internet Explorer 5.5+ */
+}
+
+.marginLeft50p {
+  margin-left: 45.5%;
+}
+
+.emptyDiv {
+  height: 20px;
+}

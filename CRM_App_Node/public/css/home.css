@@ -1,0 +1,250 @@
+.logoRow {
+  margin-bottom: 30px;
+  margin-top: 15px;
+}
+
+.logoRow > img {
+  width: 125px;
+  margin-left: 10px;
+}
+
+/*-----Profile Icon*/
+div.dropdown {
+color: #555;
+margin: 3px -22px 0 0;
+width: 143px;
+position: relative;
+height: 17px;
+text-align:left;
+z-index: 1031;
+}
+
+div.submenu {
+position: absolute;
+z-index: 1032;
+width: 135px;
+display: none;
+margin-left: 10px;
+margin-right: 1px;
+padding: 40px 0 5px;
+border-radius: 6px;
+}
+
+.dropdown  li a {
+color: #555555;
+display: block;
+font-family: arial;
+font-weight: bold;
+padding: 6px 15px;
+cursor: pointer;
+text-decoration:none;
+}
+
+.dropdown li a:hover{
+opacity: 0.5;
+text-decoration: none;
+}
+
+a.account {
+font-size: 11px;
+line-height: 16px;
+color: #555;
+position: absolute;
+padding-left: 1px;
+z-index: 1032;
+display: block;
+padding: 18px 0 0 70px;
+height: 28px;
+width: 121px;
+margin: -11px 0 0 -10px;
+text-decoration: none;
+cursor:pointer;
+}
+
+.root {
+list-style: none;
+font-size: 11px;
+box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+background: #fff;
+padding: 10px 0 10px 0;
+border-radius: 30px 0px 30px 30px;
+margin: 21px 63px 0 -30px;
+}
+
+.root:before {
+content: '';
+display: inline-block;
+border-left: 7px solid transparent;
+border-right: 7px solid transparent;
+border-bottom: 7px solid #ccc;
+border-bottom-color: #ffffff;
+position: absolute;
+color: #ffffff;
+top: 54px;
+left: 17px;
+}
+
+.profile-circle {
+width: 45px;
+height: 44px;
+padding-left: 1px;
+background-size: cover;
+background-repeat: no-repeat;
+background-position: center center;
+-webkit-border-radius: 99em;
+-moz-border-radius: 99em;
+border-radius: 99em;
+border: 2px solid #eee;
+box-shadow: 0 3px 2px rgba(0, 0, 0, 0.3);
+vertical-align: middle;
+}
+
+/* NAVBAR
+****************************************/
+
+.homeDivBelowNav {
+  padding-top: 70px;
+}
+
+nav div h2 {
+  margin-right: 6.5%;
+}
+
+
+
+/* LEFT COL
+****************************************/
+
+.homeFcHeader {
+  border-top: 2px solid #e7e7e7;
+}
+
+/* LEFT COL
+****************************************/
+
+/* MISC
+****************************************/
+
+.vh-90 {
+  height: 90vh;
+  overflow-y: scroll;
+}
+
+.homeUnderline {
+  text-decoration: underline;
+}
+
+.homeMarginLeft15px {
+  margin-left: 15px;
+}
+
+.home {
+  display: table;
+  width: 100vw;
+  margin: 0px 0px 0px 0px;
+  border: 0px;
+  padding: 0px
+}
+
+.searchCustomers {
+  width: 25%;
+  /*height: 180px;*/
+  background:rgba(165, 192, 217, 0.5);
+  box-shadow: 0 22px 28px rgba(0, 0, 0, 0.5);
+  border-radius: 25px;
+  padding-left: 25px;
+  margin-left: 78px;
+  margin-top: -5px;
+}
+
+.searchInput {
+  margin-bottom: 5px;
+}
+
+.searchByAssignee {
+  width: 100%;
+}
+
+.iconsDiv {
+  margin-top: 50px;
+  padding-top: 20px;
+  border-top: 1px solid grey;
+}
+
+.customerList {
+  background:rgba(165, 192, 217, 0.5);
+  box-shadow: 0 22px 28px rgba(0, 0, 0, 0.5);
+  border-radius: 25px;
+  margin-right: 105px;
+  margin-left: 100px;
+  margin-top: -5px;
+}
+
+.repeatedCustomers {
+  border-top: 3px groove #81a7ca;
+  padding-bottom: 2px;
+  padding-top: 10px;
+}
+
+.repeatedCustomers:hover {
+  background-color: #c9d9e8;
+}
+
+.customerPropertiesRow {
+  margin-bottom: 5px;
+}
+
+.homeOptions {
+  width: 25%;
+  background:rgba(165, 192, 217, 0.5);
+  box-shadow: 0 22px 28px rgba(0, 0, 0, 0.5);
+  border-radius: 25px;
+  margin-top: 10px;
+  margin-right: 1px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+.emailPic {
+  width: 100px;
+  height: 100px;
+  margin-left: 57px;
+}
+.emailPic:hover {
+  opacity: 0.7;
+
+}
+.emailPic:active {
+opacity: 0.2;
+}
+
+.newCustomerPic {
+  width: 100px;
+  height: 100px;
+  margin-left: 50px;
+}
+
+.newCustomerPic:hover {
+   opacity: 0.7;
+}
+
+.newCustomerPic:active {
+  opacity: 0.2;
+}
+
+.findCustomerOptions {
+  padding-top: 50px;
+}
+
+.getStartedMessage {
+  margin-left: 40%;
+  margin-top: 7%;
+}
+
+.getStartedMessage > h2 {
+  color: grey;
+}
+
+.required {
+  color: red;
+}

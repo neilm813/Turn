@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<div class="container-fluid" ng-controller="customerController">
+    <div class="row logoRow">
+        <img class="animated rotateInDownLeft" src="./css/img/turn_blk.png" alt="Brand Logo">
+            <!-- START Logged In User Dropdown -->
+            <div class="dropdown pull-right" style="margin-right: 0px">
+                <a class="account">
+                    <img src="http://www.freeiconspng.com/uploads/am-a-19-year-old-multimedia-artist-student-from-manila--21.png" class="profile-circle"
+                    />
+                </a>
+                <div class="submenu" style="display: none; ">
+                <ul class="root">
+                    <li>
+                        <a ng-click="goHome()">Home</a>
+                    </li>
+                    <li>
+                        <a ng-click="editUserModal()">Edit Profile</a>
+                    </li>
+                    <li>
+                        <a ng-click="deleteUserModal()">Delete Profile</a>
+                    </li>
+                    <li>
+                        <a ng-click="logout()">Log Out</a>
+                    </li>
+                </ul>
+                </div>
+            </div>
+<!-- END Logged In User Drop Down -->
+    </div>
+    <div class="row home">
+        <div class="col-md-5 searchCustomers animated fadeIn">
+            <h3 class="text-center paddingBot10px">Search Customers</h3>
+            <div class="form-group">
+                <label>Search All Customers</label>
+                <input type="text" ng-model="customerInfo" placeholder="leave blank to return all customers" class="form-control searchInput"
+                />
+                <div>
+                    <button ng-click="findCustomer()" class="btn btn-default pull-right">
+                        Search
+                    </button>
+                </div>
+            </div>
+            <div class="form-group clearfix">
+                <label>Search By Assignee</label>
+                <div class="form-group">
+                    <div class="btn-group searchByAssignee">
+                        <button type="button" class="btn btn-default form-control dropdown-toggle" data-toggle="dropdown">{{selectedUserName}}<span class="caret"></span></button>
+                        <ul class="dropdown-menu home-scrollable-menu" role="menu">
+                            <li ng-repeat="user in users"><a ng-click="setSelectedUser(user)">{{user.FirstName}} {{user.LastName}}</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- START Icons -->
+            <div class="form-group iconsDiv">
+                <div class="cursorPointer">
+                    <img src="https://cdn4.iconfinder.com/data/icons/mosaicon-09/512/add_user-512.png" class="newCustomerPic" ng-click="createNewCustomerModal()">                    <span ng-click="createNewCustomerModal()">Add a New Customer</span>
+                </div>
+            </div>
+            <!-- END Icons -->
+
+        </div>
+        <div ng-hide="customerListShown" class="getStartedMessage">
+            <h2 class="animated pulse">Get Started By Searching Your Customers <br> Or Add a New Customer</h2>
+        </div>
+        <div ng-show="customerListShown" class="col-md-6 customerList animated fadeInDown">
+            <h2 class="text-center">Search Results</h2>
+            <input type="text" ng-show="isSearching" ng-model="filtering" class="form-control marginBot10px" placeholder="filter by name, lead state, or email"
+            />
+            <div class="row customerPropertiesRow">
+                <div class="col-sm-3">
+                    <h4>Name</h4>
+                </div>
+                <div class="col-sm-2">
+                    <h4>Lead State</h4>
+                </div>
+                <div class="col-sm-3">
+                    <h4>Phone</h4>
+                </div>
+                <div class="col-sm-4">
+                    <h4>Email</h4>
+                </div>
+            </div>
+            <div class="row repeatedCustomers animated fadeIn" ng-click="setSelectedCustomer(customer)" ng-repeat="customer in displayedCustomers | filter:filtering">
+                <div class="col-sm-3">
+                    <p class="wordWrap">{{ customer.FirstName }} {{ customer.LastName }}</p>
+                </div>
+                <div class="col-sm-2">
+                    <p class="wordWrap">{{ customer.LeadState }}</p>
+                </div>
+                <div class="col-sm-3">
+                    <p class="linkWrap"><a href="tel:{{ customer.Phone }}">{{ customer.Phone }}</a></p>
+                </div>
+                <div class="col-sm-4">
+                    <p><a class="linkWrap" href="mailto:{{ customer.Email }}">{{ customer.Email }}</a></p>
+                </div>
+            </div>
+            <div class="emptyDiv"></div>
+        </div>
+
+    </div>
+    <!-- End Row 1 -->
+
+    <!-- MODALS -->
+    <div>
+        <!-- START Create New Customer Modal -->
+        <div class="modal fade" id="createNewCustomerModal" tabindex="-1" role="dialog" aria-labelledby="createNewCustomerModal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title text-center" id="addNewCustomerTitle">Add New Customer</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group text-center">
+                            <label>First Name
+                                <input ng-model="newFName" class="form-control" type="text">
+                            </label>
+                            <label>Last Name
+                                <input ng-model="newLName" class="form-control" type="text">
+                            </label>
+                        </div>
+                        <div class="form-group text-center">
+                            <label><span class="required">*</span>Lead State
+                                <input type="text" ng-model="isLead" class="form-control">
+                            </label>
+                        </div>
+                        <div class="form-group text-center">
+                            <label><span class="required">*</span>Email
+                                <input ng-model="newEmail" class="form-control" type="text">
+                            </label>
+                            <label>Phone Number
+                                <input ng-model="newPNumber" class="form-control" type="text">
+                            </label>
+                        </div>
+                        <div class="form-group text-center">
+                            <label>Date of Birth
+                                <input ng-model="newDOB" class="form-control" type="datetime">
+                            </label>
+                            <label>Gender
+                                <input ng-model="newGender" class="form-control" type="text">
+                            </label>
+                        </div>
+                        <div class="form-group text-center">
+                            <label>Address
+                            <input ng-model="newAddr" class="form-control" type="text">
+                            </label>
+                            <label>City
+                                <input ng-model="newCity" class="form-control" type="text">
+                            </label>
+                        </div>
+                        <div class="form-group text-center">
+                            <label>State
+                            <input ng-model="newState" class="form-control" type="text">
+                            </label>
+                            <label>Zip Code
+                                <input ng-model="newZip" class="form-control" type="text">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn" data-dismiss="modal">Cancel</button>
+                        <button ng-click="createNewCustomer()" class="btn" data-dismiss="modal">Create</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END Create New Customer -->
+        <!-- START Edit User Modal -->
+        <div class="text-center modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="editUserModal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="editUserTitle">Edit Profile</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>First Name
+                                <input ng-model="editUserFName" class="form-control" type="text">
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label>Last Name
+                                <input ng-model="editUserLName" class="form-control" type="text">
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label>Email
+                                <input ng-model="editUserEmail" class="form-control" type="text">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button ng-click="editUser()" class="btn btn-default" data-dismiss="modal">Edit Profile</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END Edit User Modal -->
+        <!-- START Delete User Modal -->
+        <div class="text-center modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="deleteUserModal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="userDeleteTitle">Edit Profile</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <spann class="color: red">**WARNING** You will not be able to delete your account until all YOUR customers have been reassigned.
+                            </spann>
+                            <div>
+                                <h4>Customers to Reassign</h4>
+                                <ul>
+                                    <li ng-repeat="customer in loggedInUserCustomers">{{customer.FirstName}} {{customer.LastName}} <button ng-click="reassignCustomer(customer)">Reassign</button></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <button ng-click="deleteAccount()" class="btn btn-danger" ng-disabled="canDelete">Delete Profile</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END Delete User Modal-->
+    </div>
+<script> 
+    $(document).ready(function () {
+
+        $(".account").click(function () {
+            var X = $(this).attr('id');
+            if (X == 1) {
+                $(".submenu").hide();
+                $(this).attr('id', '0');
+            }
+            else {
+                $(".submenu").show();
+                $(this).attr('id', '1');
+            }
+        });
+
+        $(".submenu").mouseup(function () {
+            return false
+        });
+
+        $(".account").mouseup(function () {
+            return false
+        });
+
+        $(document).mouseup(function () {
+            $(".submenu").hide();
+            $(".account").attr('id', '');
+        });
+
+    });
+</script>

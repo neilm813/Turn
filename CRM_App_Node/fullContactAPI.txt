@@ -1,0 +1,69 @@
+//returned object properties (email or phone):
+
+    .contactInfo(object)
+    .demographics(object)
+    .likelihood(int)
+    .organizations(array of objects
+    .photos(array of objects)
+    .requestId(string)
+    .socialProfiles(array of objects)
+    .digitalFootprint
+    .status(int)
+
+    .contactInfo
+        .familyName(last name)
+        .fullName(first + last)
+        .givenName(first name)
+        .websites
+            websites[0].url
+
+    .digitalFootprint
+        .scores[0]
+            .provider("klout")
+            .type("general")
+            .value(int)
+        .topics[0]
+            .provider("klout")
+            .value("Twitter")
+
+    .demographics
+        .gender(string)
+        .locationDeduced
+            .city
+                .name
+            .continent
+                .deduced(bool)
+                .name("North America")
+            .country
+                .code("US")
+                .deduced(bool)
+                .name("United States")
+            .county
+                .deduced(bool)
+                .name("Orange")
+        .locationGeneral("La Habra, California")
+
+    .organizations[0]
+        .current(bool)
+        .name("org name")
+        .startDate
+        .title("Customer Success Manager")
+
+    .photos[0]
+        .isPrimary(bool)
+        .type("facebook")
+        .typeId("facebook")
+        .typeName("Facebook")
+        .url(string) // img src=
+
+    .socialProfiles[0]
+        .followers(int)
+        .id(int)
+        .type(angellist)
+        .typeId(angellist)
+        .typeName(AngelList)
+        .url(string)
+        .username("string")
+
+
+

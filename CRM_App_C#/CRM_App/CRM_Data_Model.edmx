@@ -1,0 +1,338 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="CRM_Data_Model.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="CRM_Data_ModelStoreContainer">
+    <EntitySet Name="Users" EntityType="CRM_Data_Model.Store.Users" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Customers" EntityType="CRM_Data_Model.Store.Customers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Notes" EntityType="CRM_Data_Model.Store.Notes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="NoteEdits" EntityType="CRM_Data_Model.Store.NoteEdits" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="UserCustomer" Association="CRM_Data_Model.Store.UserCustomer">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Customer" EntitySet="Customers" />
+    </AssociationSet>
+    <AssociationSet Name="CustomerNote" Association="CRM_Data_Model.Store.CustomerNote">
+      <End Role="Customer" EntitySet="Customers" />
+      <End Role="Note" EntitySet="Notes" />
+    </AssociationSet>
+    <AssociationSet Name="NoteNoteEdits" Association="CRM_Data_Model.Store.NoteNoteEdits">
+      <End Role="Note" EntitySet="Notes" />
+      <End Role="NoteEdits" EntitySet="NoteEdits" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FirstName" Type="nvarchar(max)" Nullable="false" DefaultValue="" />
+    <Property Name="LastName" Type="nvarchar(max)" Nullable="false" DefaultValue=" " />
+    <Property Name="Email" Type="nvarchar(max)" Nullable="false" DefaultValue=" " />
+    <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Customers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FirstName" Type="nvarchar(max)" Nullable="true" DefaultValue="" />
+    <Property Name="LastName" Type="nvarchar(max)" Nullable="true" DefaultValue="" />
+    <Property Name="Email" Type="nvarchar(max)" Nullable="true" DefaultValue="" />
+    <Property Name="Phone" Type="nvarchar(max)" Nullable="true" DefaultValue="" />
+    <Property Name="DOB" Type="nvarchar(max)" Nullable="true" DefaultValue="" />
+    <Property Name="LeadState" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Gender" Type="nvarchar(max)" Nullable="true" DefaultValue="" />
+    <Property Name="DateAdded" Type="datetime" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="City" Type="nvarchar(max)" Nullable="true" DefaultValue="" />
+    <Property Name="State" Type="nvarchar(max)" Nullable="true" DefaultValue="" />
+    <Property Name="Zip" Type="int" Nullable="true" />
+    <Property Name="StreetAddress" Type="nvarchar(max)" Nullable="true" DefaultValue=" " />
+    <Property Name="Employer" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="JobTitle" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Tenure" Type="int" Nullable="true" />
+    <Property Name="Nickname" Type="nvarchar(max)" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Notes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Author" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Subject" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Body" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Mood" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="DateAdded" Type="datetime" Nullable="false" />
+    <Property Name="CustomerId" Type="int" Nullable="false" />
+    <Property Name="LastEditDate" Type="datetime" Nullable="true" />
+    <Property Name="LastEditAuthor" Type="nvarchar(max)" Nullable="true" />
+  </EntityType>
+  <EntityType Name="NoteEdits">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Author" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Subject" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Body" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Mood" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="DateEdited" Type="datetime" Nullable="false" />
+    <Property Name="CustomerId" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="NoteId" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="UserCustomer">
+    <End Role="User" Type="CRM_Data_Model.Store.Users" Multiplicity="1" />
+    <End Role="Customer" Type="CRM_Data_Model.Store.Customers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Customer">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CustomerNote">
+    <End Role="Customer" Type="CRM_Data_Model.Store.Customers" Multiplicity="1" />
+    <End Role="Note" Type="CRM_Data_Model.Store.Notes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Note">
+        <PropertyRef Name="CustomerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="NoteNoteEdits">
+    <End Role="Note" Type="CRM_Data_Model.Store.Notes" Multiplicity="1" />
+    <End Role="NoteEdits" Type="CRM_Data_Model.Store.NoteEdits" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Note">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="NoteEdits">
+        <PropertyRef Name="NoteId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="CRM_Data_Model" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="CRM_Data_ModelContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Users" EntityType="CRM_Data_Model.User" />
+          <EntitySet Name="Customers" EntityType="CRM_Data_Model.Customer" />
+          <EntitySet Name="Notes" EntityType="CRM_Data_Model.Note" />
+          <AssociationSet Name="UserCustomer" Association="CRM_Data_Model.UserCustomer">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Customer" EntitySet="Customers" />
+          </AssociationSet>
+          <AssociationSet Name="CustomerNote" Association="CRM_Data_Model.CustomerNote">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Note" EntitySet="Notes" />
+          </AssociationSet>
+          <EntitySet Name="NoteEdits" EntityType="CRM_Data_Model.NoteEdits" />
+          <AssociationSet Name="NoteNoteEdits" Association="CRM_Data_Model.NoteNoteEdits">
+            <End Role="Note" EntitySet="Notes" />
+            <End Role="NoteEdits" EntitySet="NoteEdits" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" Nullable="false" DefaultValue="" />
+          <Property Name="LastName" Type="String" Nullable="false" DefaultValue=" " />
+          <Property Name="Email" Type="String" Nullable="false" DefaultValue=" " />
+          <NavigationProperty Name="Customers" Relationship="CRM_Data_Model.UserCustomer" FromRole="User" ToRole="Customer" />
+          <Property Name="Password" Type="String" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" Nullable="true" DefaultValue="" />
+          <Property Name="LastName" Type="String" Nullable="true" DefaultValue="" />
+          <Property Name="Email" Type="String" Nullable="true" DefaultValue="" />
+          <Property Name="Phone" Type="String" Nullable="true" DefaultValue="" />
+          <Property Name="DOB" Type="String" Nullable="true" DefaultValue="" />
+          <Property Name="LeadState" Type="String" Nullable="false" />
+          <Property Name="Gender" Type="String" Nullable="true" DefaultValue="" />
+          <Property Name="DateAdded" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="CRM_Data_Model.UserCustomer" FromRole="Customer" ToRole="User" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Notes" Relationship="CRM_Data_Model.CustomerNote" FromRole="Customer" ToRole="Note" />
+          <Property Name="City" Type="String" Nullable="true" DefaultValue="" />
+          <Property Name="State" Type="String" Nullable="true" DefaultValue="" />
+          <Property Name="Zip" Type="Int32" Nullable="true" />
+          <Property Name="StreetAddress" Type="String" Nullable="true" DefaultValue=" " />
+          <Property Name="Employer" Type="String" Nullable="true" />
+          <Property Name="JobTitle" Type="String" Nullable="true" />
+          <Property Name="Tenure" Type="Int32" Nullable="true" />
+          <Property Name="Nickname" Type="String" Nullable="true" />
+        </EntityType>
+        <EntityType Name="Note">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Author" Type="String" Nullable="false" />
+          <Property Name="Subject" Type="String" Nullable="false" />
+          <Property Name="Body" Type="String" Nullable="false" />
+          <Property Name="Mood" Type="String" Nullable="true" />
+          <Property Name="DateAdded" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Customer" Relationship="CRM_Data_Model.CustomerNote" FromRole="Note" ToRole="Customer" />
+          <Property Name="CustomerId" Type="Int32" Nullable="false" />
+          <Property Name="LastEditDate" Type="DateTime" Nullable="true" />
+          <NavigationProperty Name="NoteEdits" Relationship="CRM_Data_Model.NoteNoteEdits" FromRole="Note" ToRole="NoteEdits" />
+          <Property Name="LastEditAuthor" Type="String" Nullable="true" />
+        </EntityType>
+        <Association Name="UserCustomer">
+          <End Type="CRM_Data_Model.User" Role="User" Multiplicity="1" />
+          <End Type="CRM_Data_Model.Customer" Role="Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CustomerNote">
+          <End Type="CRM_Data_Model.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="CRM_Data_Model.Note" Role="Note" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Note">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="NoteEdits">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Author" Type="String" Nullable="false" />
+          <Property Name="Subject" Type="String" Nullable="false" />
+          <Property Name="Body" Type="String" Nullable="false" />
+          <Property Name="Mood" Type="String" Nullable="true" />
+          <Property Name="DateEdited" Type="DateTime" Nullable="false" />
+          <Property Name="CustomerId" Type="String" Nullable="false" />
+          <NavigationProperty Name="Note" Relationship="CRM_Data_Model.NoteNoteEdits" FromRole="NoteEdits" ToRole="Note" />
+          <Property Name="NoteId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="NoteNoteEdits">
+          <End Type="CRM_Data_Model.Note" Role="Note" Multiplicity="1" />
+          <End Type="CRM_Data_Model.NoteEdits" Role="NoteEdits" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Note">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="NoteEdits">
+              <PropertyRef Name="NoteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="CRM_Data_ModelStoreContainer" CdmEntityContainer="CRM_Data_ModelContainer">
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="IsTypeOf(CRM_Data_Model.User)">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Customers">
+      <EntityTypeMapping TypeName="IsTypeOf(CRM_Data_Model.Customer)">
+        <MappingFragment StoreEntitySet="Customers">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="DOB" ColumnName="DOB" />
+          <ScalarProperty Name="LeadState" ColumnName="LeadState" />
+          <ScalarProperty Name="Gender" ColumnName="Gender" />
+          <ScalarProperty Name="DateAdded" ColumnName="DateAdded" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="Zip" ColumnName="Zip" />
+          <ScalarProperty Name="StreetAddress" ColumnName="StreetAddress" />
+          <ScalarProperty Name="Employer" ColumnName="Employer" />
+          <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
+          <ScalarProperty Name="Tenure" ColumnName="Tenure" />
+          <ScalarProperty Name="Nickname" ColumnName="Nickname" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Notes">
+      <EntityTypeMapping TypeName="IsTypeOf(CRM_Data_Model.Note)">
+        <MappingFragment StoreEntitySet="Notes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Author" ColumnName="Author" />
+          <ScalarProperty Name="Subject" ColumnName="Subject" />
+          <ScalarProperty Name="Body" ColumnName="Body" />
+          <ScalarProperty Name="Mood" ColumnName="Mood" />
+          <ScalarProperty Name="DateAdded" ColumnName="DateAdded" />
+          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+          <ScalarProperty Name="LastEditDate" ColumnName="LastEditDate" />
+          <ScalarProperty Name="LastEditAuthor" ColumnName="LastEditAuthor" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NoteEdits">
+      <EntityTypeMapping TypeName="IsTypeOf(CRM_Data_Model.NoteEdits)">
+        <MappingFragment StoreEntitySet="NoteEdits">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Author" ColumnName="Author" />
+          <ScalarProperty Name="Subject" ColumnName="Subject" />
+          <ScalarProperty Name="Body" ColumnName="Body" />
+          <ScalarProperty Name="Mood" ColumnName="Mood" />
+          <ScalarProperty Name="DateEdited" ColumnName="DateEdited" />
+          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+          <ScalarProperty Name="NoteId" ColumnName="NoteId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
